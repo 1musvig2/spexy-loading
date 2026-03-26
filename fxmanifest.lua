@@ -23,5 +23,5 @@ files {
     'html/assets/music/*.ogg',
 }
 
--- QBCore & QBox compatibility
+
 lua54 'yes'
