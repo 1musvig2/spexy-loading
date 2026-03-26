@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Spexy Development">
+    <title>Spexy Loading Screen</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- spexy-loading v1.1.0 | Modern & Minimalist -->
+    <!-- QBCore & QBox Compatible -->
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════
+         BACKGROUND LAYER
+    ═══════════════════════════════════════ -->
+    <div id="spexy-bg"></div>
+
+    <!-- ═══════════════════════════════════════
+         ALWAYS-VISIBLE TOP-LEFT BAR
+    ═══════════════════════════════════════ -->
+    <div id="spexy-topbar">
+
+        <!-- Toggle Button -->
+        <button id="spexy-panel-toggle" title="Menü">
+            <span class="toggle-bar"></span>
+            <span class="toggle-bar"></span>
+            <span class="toggle-bar"></span>
+        </button>
+
+        <!-- Online Badge (always visible) -->
+        <div id="spexy-online-badge">
+            <span class="online-dot"></span>
+            <span id="spexy-player-count">—</span>
+            <span id="spexy-player-max">/64</span>
+            <span id="spexy-players-label">çevrimiçi</span>
+        </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         LEFT SLIDE PANEL (açılır/kapanır)
+    ═══════════════════════════════════════ -->
+    <div id="spexy-backdrop"></div>
+
+    <aside id="spexy-left">
+
+        <div class="panel-inner">
+
+            <!-- Discord Profile -->
+            <div id="spexy-profile">
+                <img id="spexy-discord-avatar"
+                     src="https://cdn.discordapp.com/embed/avatars/0.png"
+                     alt="Avatar"
+                     onerror="this.src='https://cdn.discordapp.com/embed/avatars/0.png'">
+                <div class="profile-info">
+                    <div class="profile-badge">
+                        <span class="profile-badge-dot"></span>
+                        Discord
+                    </div>
+                    <div id="spexy-discord-name">—</div>
+                    <div id="spexy-discord-tag">#0000</div>
+                </div>
+            </div>
+
+            <div class="panel-divider"></div>
+
+            <!-- Rules -->
+            <div class="spexy-rules-section">
+                <div class="rules-header">
+                    <div class="rules-line"></div>
+                    <span id="spexy-rules-title">Sunucu Kuralları</span>
+                    <div class="rules-line"></div>
+                </div>
+                <ul id="spexy-rules-list"></ul>
+            </div>
+
+            <div class="panel-divider"></div>
+
+            <!-- Bottom -->
+            <div class="spexy-bottom-section">
+
+                <a id="spexy-discord-btn" href="#" target="_blank" rel="noopener">
+                    <svg class="discord-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.032.054a19.9 19.9 0 0 0 5.993 3.03.077.077 0 0 0 .084-.028 13.99 13.99 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/>
+                    </svg>
+                    <span class="social-label">discord.gg/spexy</span>
+                    <span class="social-arrow">→</span>
+                </a>
+
+                <div class="spexy-footer">
+                    <span class="spexy-brand">SPEXY</span>
+                    <span id="spexy-version">v1.1.0</span>
+                </div>
+
+            </div>
+        </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════
+         CENTER: Server Identity + Loading
+    ═══════════════════════════════════════ -->
+    <main id="spexy-center">
+
+        <div class="spexy-server-identity">
+            <div class="spexy-logo-wrapper">
+                <img id="spexy-logo"
+                     src="assets/img/logo.png"
+                     alt="Spexy Logo"
+                     onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'spexy-logo-placeholder\'>S</span>'">
+            </div>
+            <div id="spexy-server-name">SPEXY ROLEPLAY</div>
+        </div>
+
+        <div class="spexy-loading-core">
+            <div class="spexy-bar-header">
+                <span id="spexy-loading-label">Yükleniyor</span>
+                <span id="spexy-bar-percent">0%</span>
+            </div>
+            <div class="spexy-bar-track">
+                <div id="spexy-bar-fill"></div>
+            </div>
+            <span id="spexy-connecting">Bağlanılıyor...</span>
+        </div>
+
+        <div class="spexy-tip-box">
+            <span id="spexy-tip-label">İpucu</span>
+            <span id="spexy-tip-text">Yükleniyor...</span>
+        </div>
+
+    </main>
+
+    <!-- ─── MUSIC BUTTON ─────────────────────── -->
+    <button id="spexy-music-btn" title="Müzik">
+        <span class="music-icon">♪</span>
+    </button>
+
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>

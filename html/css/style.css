@@ -1,0 +1,675 @@
+/* ═══════════════════════════════════════════════════════
+   SPEXY LOADING SCREEN - STYLE.CSS v1.1.0
+   Modern & Minimalist | spexy-loading
+   ═══════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ─── RESET ─────────────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface-hover: #1a1a1a;
+    --border: #222222;
+    --border-accent: #333333;
+    --text: #ffffff;
+    --text-muted: #888888;
+    --text-dim: #444444;
+    --accent: #ffffff;
+    --accent-dim: rgba(255,255,255,0.06);
+    --bar: #ffffff;
+    --bar-bg: #1e1e1e;
+    --overlay: rgba(0,0,0,0.6);
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --panel-w: 320px;
+    --topbar-h: 52px;
+}
+
+/* ─── CURSOR FIX (FiveM NUI) ────────────────────────────── */
+html {
+    cursor: default !important;
+}
+* {
+    cursor: default !important;
+}
+a, button, [role="button"], label {
+    cursor: pointer !important;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    user-select: none;
+}
+
+/* ─── FADE OUT ───────────────────────────────────────────── */
+body.spexy-fade-out {
+    animation: spexyfadeout 0.8s ease forwards;
+}
+@keyframes spexyfadeout {
+    to { opacity: 0; transform: scale(1.02); }
+}
+
+/* ─── BACKGROUND ─────────────────────────────────────────── */
+#spexy-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: var(--bg);
+    overflow: hidden;
+}
+#spexy-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--overlay);
+    z-index: 1;
+}
+
+.spexy-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+}
+.spexy-slide.active { opacity: 1; }
+
+/* ─── TOPBAR (always visible, top-left) ─────────────────── */
+#spexy-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 18px;
+    height: var(--topbar-h);
+    background: rgba(10,10,10,0.85);
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-bottom-right-radius: 12px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+body.spexy-ready #spexy-topbar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Hamburger toggle */
+#spexy-panel-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    padding: 4px;
+    border-radius: 6px;
+    cursor: pointer !important;
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+}
+#spexy-panel-toggle:hover {
+    background: var(--accent-dim);
+}
+.toggle-bar {
+    display: block;
+    width: 100%;
+    height: 1.5px;
+    background: var(--text-muted);
+    border-radius: 2px;
+    transition: background 0.2s ease, transform 0.3s var(--ease), opacity 0.3s ease, width 0.3s ease;
+    transform-origin: left center;
+}
+body.panel-open #spexy-panel-toggle .toggle-bar:nth-child(1) {
+    transform: rotate(40deg) translateY(-1px);
+    background: var(--text);
+}
+body.panel-open #spexy-panel-toggle .toggle-bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+body.panel-open #spexy-panel-toggle .toggle-bar:nth-child(3) {
+    transform: rotate(-40deg) translateY(1px);
+    background: var(--text);
+}
+
+/* Online badge */
+#spexy-online-badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.online-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 7px rgba(74,222,128,0.7);
+    flex-shrink: 0;
+    animation: dotpulse 2.2s ease-in-out infinite;
+}
+@keyframes dotpulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.55; transform:scale(0.8); }
+}
+#spexy-player-count {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.02em;
+}
+#spexy-player-max {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-left: -4px;
+}
+#spexy-players-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+/* ─── BACKDROP ───────────────────────────────────────────── */
+#spexy-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background: rgba(0,0,0,0.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    cursor: pointer !important;
+}
+body.panel-open #spexy-backdrop {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* ─── LEFT SLIDE PANEL ───────────────────────────────────── */
+#spexy-left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: var(--panel-w);
+    height: 100%;
+    background: rgba(8,8,8,0.96);
+    border-right: 1px solid var(--border);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+
+    transform: translateX(calc(-1 * var(--panel-w)));
+    transition: transform 0.42s var(--ease), box-shadow 0.42s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+body.panel-open #spexy-left {
+    transform: translateX(0);
+    box-shadow: 8px 0 40px rgba(0,0,0,0.6);
+}
+
+.panel-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 80px 28px 32px;
+    gap: 0;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+.panel-inner::-webkit-scrollbar { display: none; }
+
+/* ─── DISCORD PROFILE ────────────────────────────────────── */
+#spexy-profile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    background: var(--accent-dim);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 20px;
+
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+}
+body.panel-open #spexy-profile {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+#spexy-discord-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 2px solid var(--border-accent);
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--surface);
+}
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+}
+.profile-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 9px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+.profile-badge-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #5865F2;
+    flex-shrink: 0;
+}
+#spexy-discord-name {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#spexy-discord-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* ─── DIVIDER ────────────────────────────────────────────── */
+.panel-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+}
+
+/* ─── RULES ──────────────────────────────────────────────── */
+.spexy-rules-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 0.4s ease 0.25s, transform 0.4s ease 0.25s;
+}
+body.panel-open .spexy-rules-section {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.rules-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.rules-line {
+    height: 1px;
+    background: var(--border);
+    flex: 1;
+}
+#spexy-rules-title {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+#spexy-rules-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    flex: 1;
+    scrollbar-width: none;
+    padding-right: 2px;
+}
+#spexy-rules-list::-webkit-scrollbar { display: none; }
+
+.spexy-rule-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    opacity: 0;
+    transform: translateX(-8px);
+    animation: ruleIn 0.4s var(--ease) forwards;
+}
+@keyframes ruleIn {
+    to { opacity: 1; transform: translateX(0); }
+}
+.rule-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+.rule-text {
+    font-size: 12.5px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* ─── BOTTOM SECTION ─────────────────────────────────────── */
+.spexy-bottom-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 0.4s ease 0.35s, transform 0.4s ease 0.35s;
+}
+body.panel-open .spexy-bottom-section {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+#spexy-discord-btn {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(88,101,242,0.1);
+    border: 1px solid rgba(88,101,242,0.28);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    transition: background 0.2s ease, border-color 0.2s ease;
+    cursor: pointer !important;
+}
+#spexy-discord-btn:hover {
+    background: rgba(88,101,242,0.2);
+    border-color: rgba(88,101,242,0.45);
+}
+.discord-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: #5865F2;
+}
+.social-label {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    flex: 1;
+}
+.social-arrow {
+    font-size: 11px;
+    color: var(--text-dim);
+    transition: transform 0.2s ease;
+}
+#spexy-discord-btn:hover .social-arrow {
+    transform: translateX(3px);
+}
+
+.spexy-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.spexy-brand {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+}
+#spexy-version {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+}
+
+/* ─── CENTER (Loading + Server) ──────────────────────────── */
+#spexy-center {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    gap: 0;
+
+    opacity: 0;
+    transition: opacity 0.8s var(--ease) 0.3s;
+}
+body.spexy-ready #spexy-center {
+    opacity: 1;
+}
+
+/* Server Identity */
+.spexy-server-identity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 56px;
+}
+.spexy-logo-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    border: 1px solid var(--border-accent);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+#spexy-logo {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}
+.spexy-logo-placeholder {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--text);
+}
+#spexy-server-name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--text);
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* Loading Bar */
+.spexy-loading-core {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 480px;
+}
+.spexy-bar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+#spexy-loading-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+#spexy-bar-percent {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.05em;
+}
+.spexy-bar-track {
+    width: 100%;
+    height: 2px;
+    background: var(--bar-bg);
+    border-radius: 99px;
+    overflow: visible;
+    position: relative;
+}
+#spexy-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--bar);
+    border-radius: 99px;
+    transition: width 0.3s ease;
+    position: relative;
+}
+#spexy-bar-fill::after {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--bar);
+    box-shadow: 0 0 8px var(--bar);
+}
+#spexy-connecting {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+}
+
+/* Tip */
+.spexy-tip-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 40px;
+    max-width: 480px;
+    width: 100%;
+    padding: 14px 18px;
+    background: var(--accent-dim);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+#spexy-tip-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 2px;
+    flex-shrink: 0;
+}
+#spexy-tip-text {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+#spexy-tip-text.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ─── MUSIC BUTTON ───────────────────────────────────────── */
+#spexy-music-btn {
+    display: none;
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 300;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border-accent);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer !important;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+#spexy-music-btn:hover {
+    background: var(--surface-hover);
+    border-color: var(--text-dim);
+    transform: scale(1.08);
+}
+#spexy-music-btn.muted .music-icon { color: var(--text-dim); }
+.music-icon {
+    font-size: 16px;
+    color: var(--text);
+    transition: color 0.2s ease;
+    line-height: 1;
+}
+
+/* ─── PARTICLES ──────────────────────────────────────────── */
+#spexy-particles {
+    position: absolute;
+    inset: 0;
+}
+
+/* ─── SCROLLBAR ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 99px; }
