@@ -1,58 +1,240 @@
-# 🎮 spexy-loading
+# spexy-loading
 
-**Modern & Minimalist FiveM Loading Screen**  
-QBCore & QBox uyumlu | v1.0.0 | Spexy Development
+A clean, minimal loading screen built for FiveM roleplay servers. Designed and developed by hand with attention to detail — no templates, no generators.
+
+Compatible with both QBCore and QBox frameworks.
+
+![Preview](preview.png)
 
 ---
 
-## 📁 Kurulum
+## Features
 
-1. `spexy-loading` klasörünü sunucunuzun `resources` dizinine kopyalayın.
-2. `server.cfg` dosyasına şunu ekleyin:
+- Collapsible left panel with Discord profile and server rules
+- Always-visible online player count pulled from FiveM API
+- Centered server identity with logo and loading bar
+- Animated particle background (switchable via config)
+- Background types: solid color, image, slideshow, video, particles
+- Music support with autoplay and volume control
+- Tip rotation system
+- Discord social link
+- Full TR / EN language support
+- All colors, fonts, rules, links and settings configurable from a single file
+- Mouse cursor fix for FiveM NUI environment
+- QBCore and QBox compatible manifest
 
-```cfg
+---
+
+## Installation
+
+1. Download and extract the `spexy-loading` folder.
+2. Place it inside your server's `resources` directory.
+3. Add the following line to your `server.cfg`:
+
+```
 ensure spexy-loading
 ```
 
-> ⚠️ `spexy-loading`, `spawnmanager` ve diğer core resource'lardan **önce** yüklenmelidir.
+Make sure `spexy-loading` is started before `spawnmanager` and other core resources.
 
 ---
 
-## ⚙️ Konfigürasyon
+## Configuration
 
-Tüm ayarlar `html/js/config.js` dosyasından yapılır.
+All settings are controlled from a single file:
 
-### Sunucu Bilgileri
+```
+html/js/config.js
+```
+
+### Server Info
+
 ```js
 server: {
-    name: "SUNUCU ADINIZ",
-    logo: "assets/img/logo.png",   // 256x256 PNG önerilir
-    cfxId: "abc123",               // cfx.re ID (oyuncu sayısı için)
+    name: "YOUR SERVER NAME",
+    logo: "assets/img/logo.png",
+    cfxId: "your_cfx_id",
     maxPlayers: 64,
 }
 ```
 
-### Arka Plan Tipi
+### Background
+
 ```js
 background: {
-    type: "particles",  // "color" | "image" | "slideshow" | "video" | "particles"
-    images: ["assets/img/bg1.jpg"],        // image / slideshow için
-    video: "assets/img/bg.mp4",           // video için
-    particleCount: 60,                     // particles için
+    type: "particles", // "color" | "image" | "slideshow" | "video" | "particles"
+    images: ["assets/img/bg1.jpg"],
+    video: "assets/img/bg.mp4",
+    particleCount: 60,
+}
+```
+
+### Colors
+
+```js
+colors: {
+    background: "#0a0a0a",
+    text: "#ffffff",
+    loadingBar: "#ffffff",
+    // all values are CSS color strings
+}
+```
+
+### Music
+
+```js
+music: {
+    enabled: true,
+    autoPlay: true,
+    volume: 0.3,
+    tracks: ["assets/music/track1.mp3"],
+}
+```
+
+### Language
+
+```js
+language: "tr", // "tr" or "en"
+```
+
+---
+
+## File Structure
+
+```
+spexy-loading/
+├── fxmanifest.lua
+├── preview.png
+├── README.md
+└── html/
+    ├── index.html
+    ├── css/
+    │   └── style.css
+    ├── js/
+    │   ├── config.js
+    │   └── app.js
+    └── assets/
+        ├── img/
+        │   ├── logo.png
+        │   └── bg1.jpg
+        └── music/
+            └── track1.mp3
+```
+
+---
+
+## Asset Guidelines
+
+| Asset | Recommended Format | Notes |
+|---|---|---|
+| Logo | PNG, 256x256 | Transparent background preferred |
+| Background image | JPG/WEBP | 1920x1080 minimum |
+| Music | MP3 or OGG | Keep under 8MB for fast loading |
+
+---
+
+## Notes
+
+- The `cfxId` field is required for live player count. Find yours at [https://servers.fivem.net](https://servers.fivem.net)
+- Music autoplay may be blocked by the browser until the first user interaction. The resource handles this automatically.
+- The left panel can be opened and closed using the hamburger button in the top-left corner.
+
+---
+
+## License
+
+This project was built and is maintained by Spexy Development.  
+You may use and modify it for your own server. Redistribution or resale without permission is not allowed.
+
+---
+
+&nbsp;
+
+---
+
+# spexy-loading (Turkce)
+
+FiveM roleplay sunucular icin sifirdan tasarlanmis, sade ve minimalist bir loading screen. Sabir ve dikkatle elle yazilmistir — hicbir sablon veya uretec kullanilmamistir.
+
+Hem QBCore hem de QBox framework'leri ile uyumludur.
+
+![Onizleme](preview.png)
+
+---
+
+## Ozellikler
+
+- Discord profili ve sunucu kurallari icin acilir kapanir sol panel
+- FiveM API'sinden cekilen, her zaman gorunur online oyuncu sayisi
+- Logo ve yukleme cubugu ile tam ortali sunucu kimlik alani
+- Animasyonlu parcacik arka plani (config'den degistirilebilir)
+- Arka plan tipleri: duz renk, resim, slayt gosterisi, video, parcaciklar
+- Otomatik oynatma ve ses kontrolu ile muzik destegi
+- Ipucu dongusu
+- Discord sosyal linki
+- Tam TR / EN dil destegi
+- Tum renkler, fontlar, kurallar, linkler ve ayarlar tek bir dosyadan yonetilebilir
+- FiveM NUI ortami icin mouse cursor duzeltmesi
+- QBCore ve QBox uyumlu manifest
+
+---
+
+## Kurulum
+
+1. `spexy-loading` klasorunu indirin ve cikarin.
+2. Sunucunuzun `resources` dizinine yerlestirin.
+3. `server.cfg` dosyaniza su satiri ekleyin:
+
+```
+ensure spexy-loading
+```
+
+`spexy-loading` in `spawnmanager` ve diger temel resource'lardan once baslatiladigina emin olun.
+
+---
+
+## Yapilandirma
+
+Tum ayarlar tek bir dosyadan kontrol edilir:
+
+```
+html/js/config.js
+```
+
+### Sunucu Bilgileri
+
+```js
+server: {
+    name: "SUNUCU ADINIZ",
+    logo: "assets/img/logo.png",
+    cfxId: "cfx_id_niz",
+    maxPlayers: 64,
+}
+```
+
+### Arka Plan
+
+```js
+background: {
+    type: "particles", // "color" | "image" | "slideshow" | "video" | "particles"
+    images: ["assets/img/bg1.jpg"],
+    video: "assets/img/bg.mp4",
+    particleCount: 60,
 }
 ```
 
 ### Renkler
+
 ```js
 colors: {
     background: "#0a0a0a",
-    accent: "#ffffff",
+    text: "#ffffff",
     loadingBar: "#ffffff",
-    // ...
 }
 ```
 
-### Müzik
+### Muzik
+
 ```js
 music: {
     enabled: true,
@@ -63,64 +245,56 @@ music: {
 ```
 
 ### Dil
+
 ```js
-language: "tr",  // "tr" veya "en"
+language: "tr", // "tr" veya "en"
 ```
 
 ---
 
-## 📂 Dosya Yapısı
+## Dosya Yapisi
 
 ```
 spexy-loading/
 ├── fxmanifest.lua
+├── preview.png
 ├── README.md
 └── html/
     ├── index.html
     ├── css/
     │   └── style.css
     ├── js/
-    │   ├── config.js      ← TÜM AYARLAR BURADAN
+    │   ├── config.js
     │   └── app.js
     └── assets/
         ├── img/
-        │   ├── logo.png   ← Sunucu logonuz (256x256 PNG)
-        │   ├── bg1.jpg    ← Arka plan görselleri
-        │   └── ...
+        │   ├── logo.png
+        │   └── bg1.jpg
         └── music/
-            └── track1.mp3 ← Müzik dosyası
+            └── track1.mp3
 ```
 
 ---
 
-## 🎨 Özellikler
+## Dosya Onerileri
 
-| Özellik | Açıklama |
-|---|---|
-| Discord Profili | Sol üstte FiveM Discord verisi otomatik |
-| Oyuncu Sayısı | FiveM API üzerinden otomatik çekilir |
-| Loading Bar | Animasyonlu, ortada, yüzde göstergeli |
-| Sunucu Kuralları | Config'den TR/EN ayarlanabilir |
-| İpuçları | Döngüsel, config'den ayarlanabilir |
-| Müzik | Autoplay, ses kontrolü, loop |
-| Arka Plan | 5 farklı tip (renk/resim/slayt/video/parçacık) |
-| Renkler | Tüm renkler config'den |
-| Dil | TR / EN |
-| QBCore & QBox | Tam uyumlu |
+| Dosya | Onerilen Format | Notlar |
+|---|---|---|
+| Logo | PNG, 256x256 | Seffaf arka plan tercih edilir |
+| Arka plan gorseli | JPG/WEBP | Minimum 1920x1080 |
+| Muzik | MP3 veya OGG | Hizli yukleme icin 8MB alti tutun |
 
 ---
 
-## 🔗 Sosyal Medya
+## Notlar
 
-- **Discord:** discord.gg/spexy
-
----
-
-## 📝 Lisans
-
-Bu proje Spexy Development tarafından geliştirilmiştir.  
-Ticari kullanım için izin gereklidir.
+- Canli oyuncu sayisi icin `cfxId` alani gereklidir. ID'nizi [https://servers.fivem.net](https://servers.fivem.net) adresinden bulabilirsiniz.
+- Muzik otomatik oynatma, ilk kullanici etkilesiminden once tarayici tarafindan engellenebilir. Resource bunu otomatik olarak yonetir.
+- Sol panel, sol ust kosedeki hamburger dugmesi kullanilarak acilip kapatilabilir.
 
 ---
 
-*spexy-loading v1.0.0 — Spexy Development*
+## Lisans
+
+Bu proje Spexy Development tarafindan gelistirilmis ve surdurulen bir calismadir.  
+Kendi sunucunuz icin kullanabilir ve degistirebilirsiniz. Izin alinmadan yeniden dagitim veya satisi yasaktir.
