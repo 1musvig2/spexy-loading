@@ -7,9 +7,6 @@ author 'Spexy Development'
 version '1.0.0'
 url 'https://discord.gg/spexy'
 
-loadscreen 'html/index.html'
-loadscreen_manual_shutdown 'no'
-
 files {
     'html/index.html',
     'html/css/style.css',
@@ -23,5 +20,7 @@ files {
     'html/assets/music/*.ogg',
 }
 
+
+loadscreen 'html/index.html'
 
 lua54 'yes'

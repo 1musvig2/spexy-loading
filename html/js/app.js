@@ -18,24 +18,42 @@ function t(key) {
 // ─── CURSOR FIX ───────────────────────────────────────────
 // FiveM NUI bazen cursor'u gizler. Bu fix tüm cursor event'lerini yakalar.
 function initCursorFix() {
+    // Body'ye cursor stilini zorla uygula
+    document.body.style.cursor = "default";
+    
+    // Tüm elementler için cursor default
+    document.querySelectorAll("*").forEach(el => {
+        el.style.cursor = "default";
+    });
+
     // NUI cursor mesajını dinle
     window.addEventListener("message", (e) => {
         if (e.data.type === "showCursor" || e.data.eventName === "loadingScreenSetCursor") {
+            document.body.style.cursor = "default";
+        }
+        if (e.data.eventName === "loadProgress") {
             document.body.style.cursor = "default";
         }
     });
 
     // Mouse hareket edince cursor'un görünür olmasını garantile
     document.addEventListener("mousemove", () => {
-        if (document.body.style.cursor === "none") {
-            document.body.style.cursor = "default";
-        }
+        document.body.style.cursor = "default";
     }, { passive: true });
 
-    // FiveM'in cursor özelliğini aktif etmek için
-    if (typeof invokeNative !== "undefined") {
-        try { invokeNative("showCursor", "true"); } catch(e) {}
-    }
+    // Mouse down/up durumlarında da cursor'u kontrol et
+    document.addEventListener("mousedown", () => {
+        document.body.style.cursor = "default";
+    });
+    
+    document.addEventListener("mouseup", () => {
+        document.body.style.cursor = "default";
+    });
+
+    // Tüm link ve butonlara cursor:pointer uygula
+    document.querySelectorAll("a, button, [role='button'], label").forEach(el => {
+        el.style.cursor = "pointer";
+    });
 }
 
 // ─── APPLY COLORS ─────────────────────────────────────────
@@ -61,28 +79,49 @@ function applyColors() {
 }
 
 // ─── PANEL TOGGLE ─────────────────────────────────────────
+let panelOpen = false;
+
 function initPanelToggle() {
     const toggleBtn = $("#spexy-panel-toggle");
     const backdrop  = $("#spexy-backdrop");
+    const leftPanel = $("#spexy-left");
+
+    if (!toggleBtn || !leftPanel) return;
 
     function openPanel() {
+        panelOpen = true;
         document.body.classList.add("panel-open");
     }
 
     function closePanel() {
+        panelOpen = false;
         document.body.classList.remove("panel-open");
     }
 
-    function togglePanel() {
-        document.body.classList.toggle("panel-open");
+    function togglePanel(e) {
+        if (e) e.preventDefault();
+        e.stopPropagation();
+        panelOpen = !panelOpen;
+        if (panelOpen) {
+            document.body.classList.add("panel-open");
+        } else {
+            document.body.classList.remove("panel-open");
+        }
     }
 
-    if (toggleBtn) toggleBtn.addEventListener("click", togglePanel);
-    if (backdrop)  backdrop.addEventListener("click", closePanel);
+    // Toggle butonuna tıkla
+    toggleBtn.addEventListener("click", togglePanel);
+    toggleBtn.addEventListener("touchstart", togglePanel, { passive: false });
+
+    // Backdrop tıklayınca kapat
+    if (backdrop) {
+        backdrop.addEventListener("click", closePanel);
+        backdrop.addEventListener("touchstart", closePanel, { passive: true });
+    }
 
     // ESC tuşuyla kapat
     document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closePanel();
+        if (e.key === "Escape" && panelOpen) closePanel();
     });
 }
 
@@ -201,7 +240,7 @@ function initMusic() {
 
     audio = new Audio();
     audio.loop = cfg.loop !== false;
-    audio.volume = cfg.volume ?? 0.3;
+    audio.volume = (cfg.volume ?? 30) / 100;
     audio.src = cfg.tracks[0];
 
     const tryPlay = () => {
@@ -219,6 +258,40 @@ function initMusic() {
             btn.style.display = "flex";
             btn.addEventListener("click", toggleMusic);
         }
+        
+        // Volume control
+        initVolumeControl();
+    }
+}
+
+function initVolumeControl() {
+    const slider = $("#spexy-volume-slider");
+    const valueEl = $("#spexy-volume-value");
+    const container = $("#spexy-volume-control");
+    
+    if (!slider || !valueEl || !container) return;
+    
+    const cfg = SpexyCFG.music;
+    const initialVolume = cfg.volume ?? 30;
+    
+    slider.value = initialVolume;
+    valueEl.textContent = initialVolume + "%";
+    
+    container.classList.add("visible");
+    
+    slider.addEventListener("input", (e) => {
+        const vol = e.target.value;
+        if (audio) audio.volume = vol / 100;
+        valueEl.textContent = vol + "%";
+    });
+    
+    // Tıklandığında volume panelini toggle et
+    const musicBtn = $("#spexy-music-btn");
+    if (musicBtn) {
+        musicBtn.addEventListener("dblclick", (e) => {
+            e.stopPropagation();
+            container.classList.toggle("visible");
+        });
     }
 }
 
@@ -375,14 +448,41 @@ function initTips() {
 
 // ─── SOCIALS ──────────────────────────────────────────────
 function initSocials() {
+    // Panel içindeki discord butonu
     const discord = SpexyCFG.socials?.discord;
     const btn = $("#spexy-discord-btn");
-    if (!btn) return;
-    if (discord?.enabled) {
+    if (btn && discord?.enabled) {
         btn.href = discord.url || "#";
         const labelEl = btn.querySelector(".social-label");
         if (labelEl) labelEl.textContent = discord.label || "discord.gg/spexy";
         btn.style.display = "flex";
+    }
+
+    // Sağ üst sosyal medya butonları
+    const socials = SpexyCFG.socials || {};
+    
+    if (socials.discord?.enabled) {
+        const discordBtn = $("#spexy-discord-social");
+        if (discordBtn) {
+            discordBtn.href = socials.discord.url || "#";
+            discordBtn.style.display = "flex";
+        }
+    }
+    
+    if (socials.youtube?.enabled) {
+        const youtubeBtn = $("#spexy-youtube-social");
+        if (youtubeBtn) {
+            youtubeBtn.href = socials.youtube.url || "#";
+            youtubeBtn.style.display = "flex";
+        }
+    }
+    
+    if (socials.github?.enabled) {
+        const githubBtn = $("#spexy-github-social");
+        if (githubBtn) {
+            githubBtn.href = socials.github.url || "#";
+            githubBtn.style.display = "flex";
+        }
     }
 }
 
@@ -433,12 +533,13 @@ function devSimulation() {
 
 // ─── INIT ─────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
+    // Temel kontroller en önce
     applyColors();
+    initPanelToggle();
     initCursorFix();
     initBackground();
     initLogo();
     applyTranslations();
-    initPanelToggle();
     initDiscordProfile();
     initMusic();
     initRules();

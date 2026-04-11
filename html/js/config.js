@@ -77,15 +77,16 @@ const SpexyCFG = {
          *  "video"   → Video döngüsü
          *  "particles" → Animasyonlu parçacıklar
          */
-        type: "particles",
+        type: "slideshow",
 
         // image / slideshow için:
         images: [
-            "assets/img/bg1.jpg",
-            "assets/img/bg2.jpg",
-            "assets/img/bg3.jpg",
+            "assets/img/image.png",
+            "assets/img/image2.png",
+            "assets/img/image3.png",
+            "assets/img/image4.png",
         ],
-        slideshowInterval: 6000,      // ms cinsinden slayt geçiş süresi
+        slideshowInterval: 5000,      // ms cinsinden slayt geçiş süresi
         imageFit: "cover",            // "cover" veya "contain"
 
         // video için:
@@ -123,6 +124,14 @@ const SpexyCFG = {
             label: "discord.gg/spexy",     // Gösterilecek yazı
             url: "https://discord.gg/spexy",
             icon: "discord",
+        },
+        youtube: {
+            enabled: false,                // true = göster, false = gizle
+            url: "https://youtube.com/@kanal",
+        },
+        github: {
+            enabled: false,                // true = göster, false = gizle
+            url: "https://github.com/kullanici",
         },
     },
 
