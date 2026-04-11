@@ -3,10 +3,6 @@
 FiveM roleplay sunucuları için sade ve minimalist bir loading screen.  
 QBCore ve QBox ile uyumludur.
 
-## 🔴 Canlı Demo
-
-**[Demo'yu Aç](https://1musvig2.github.io/spexy-loading)**
-
 ---
 
 ## Yapılandırma
